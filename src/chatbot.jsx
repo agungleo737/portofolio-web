@@ -1,13 +1,41 @@
-import { useState } from "react";
-// import aiIcon from "./assets/aiIcon.png";
+import { useState, useEffect } from "react";
+import senang from "./assets/senang-removebg-preview.png";
+import sedih from "./assets/sedih-removebg-preview.png";
+import ngiler from "./assets/ngiiler-removebg-preview.png";
 
 const API_URL = "http://localhost:8000/api/chat";
+const WAJAH = [senang, sedih, ngiler];
 
 export default function ChatBot() {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([]);
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
+  const [face, setFace] = useState(0);
+  const [pos, setPos] = useState({ x: 40, y: 40 });
+
+  // gerak random
+  useEffect(() => {
+    if (open) return;
+    const pindah = () => {
+      const W = window.innerWidth;
+      const H = window.innerHeight;
+      const kucing = 144;
+      // konten di tengah
+      const kiri = W * 0.1 - kucing;
+      const kanan = W * 0.9;
+      const diKanan = Math.random() < 0.5;
+      const x = diKanan
+        ? kanan + Math.random() * (W - kanan - kucing)
+        : Math.max(10, Math.random() * kiri);
+      const y = 20 + Math.random() * (H - kucing - 40);
+      setPos({ x, y });
+      setFace(Math.floor(Math.random() * WAJAH.length));
+    };
+    pindah();
+    const timer = setInterval(pindah, 7000);
+    return () => clearInterval(timer);
+  }, [open]);
 
   // kirim
   async function kirimPesan() {
@@ -17,6 +45,7 @@ export default function ChatBot() {
     setMessages((prev) => [...prev, { role: "user", text: teks }]);
     setInput("");
     setLoading(true);
+    setFace(2);
 
     try {
       const res = await fetch(API_URL, {
@@ -26,40 +55,51 @@ export default function ChatBot() {
       });
       const data = await res.json();
       setMessages((prev) => [...prev, { role: "bot", text: data.reply }]);
+      setFace(0);
     } catch {
       setMessages((prev) => [
         ...prev,
         { role: "bot", text: "Maaf, koneksi bermasalah." },
       ]);
+      setFace(1);
     } finally {
       setLoading(false);
     }
   }
 
-  // reset
   function newChat() {
     setMessages([]);
   }
 
   return (
-    <div className="fixed bottom-4 right-4 md:bottom-6 md:right-6 z-100 font-['poppins']">
-      {/* tombol */}
+    <>
+      {/* kucing */}
       {!open && (
         <button
           onClick={() => setOpen(true)}
-          className="w-14 h-14 rounded-full bg-red-600 text-white text-2xl shadow-lg hover:scale-110 transition-transform"
           aria-label="Buka chat"
-        >
-          💬
+          className="fixed z-[100] w-36 h-36 transition-all duration-[2500ms] ease-in-out hover:scale-110"
+          style={{ left: pos.x, top: pos.y }}>
+          <img
+            key={face}
+            src={WAJAH[face]}
+            alt="Twinkle"
+            className="w-full h-full object-contain drop-shadow-lg animate-float-bob animate-face-pop"/>
         </button>
       )}
 
       {/* panel */}
       {open && (
-        <div className="fixed inset-x-3 bottom-3 top-16 md:static md:inset-auto md:w-80 md:h-11 bg-white rounded-2xl shadow-2xl border border-red-200 flex flex-col overflow-hidden">
+        <div className="fixed right-3 bottom-3 left-3 h-[75vh] max-w-sm ml-auto md:left-auto md:inset-auto md:right-6 md:bottom-6 md:w-96 md:h-[34rem] bg-white rounded-2xl shadow-2xl border border-gray-300 flex flex-col overflow-hidden z-[100] font-['poppins']">
           {/* header */}
-          <div className="bg-red-600 text-white px-4 py-3 flex items-center justify-between">
-            <span className="font-bold">Twinkle</span>
+          <div className="bg-black text-white px-4 py-5 flex items-center justify-between">
+            <div className="flex items-center gap-3">
+              <img src={WAJAH[face]} alt="" className="w-10 h-10 object-contain" />
+              <div>
+                <p className="font-bold leading-tight">Twinkle</p>
+                <p className="text-white/50 text-xs">Asisten Leo</p>
+              </div>
+            </div>
             <div className="flex items-center gap-3 text-sm">
               <button onClick={newChat} className="hover:underline">New</button>
               <button onClick={() => setOpen(false)} aria-label="Tutup">✕</button>
@@ -67,7 +107,7 @@ export default function ChatBot() {
           </div>
 
           {/* isi */}
-          <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-red-50/30">
+          <div className="flex-1 overflow-y-auto p-3 space-y-2 bg-gray-50">
             {messages.length === 0 && (
               <p className="text-gray-400 text-sm text-center mt-4">
                 Tanya apa aja tentang Leo 👋
@@ -79,17 +119,16 @@ export default function ChatBot() {
                 key={i}
                 className={
                   m.role === "user"
-                    ? "ml-auto max-w-[80%] bg-red-600 text-white rounded-2xl px-3 py-2 text-sm"
+                    ? "ml-auto max-w-[80%] bg-black text-white rounded-2xl px-3 py-2 text-sm"
                     : "mr-auto max-w-[80%] bg-white border border-gray-200 text-gray-800 rounded-2xl px-3 py-2 text-sm"
-                }
-              >
+                }>
                 {m.text}
               </div>
             ))}
 
             {loading && (
               <div className="mr-auto bg-white border border-gray-200 text-gray-400 rounded-2xl px-3 py-2 text-sm">
-                Twinkle lagi mengetik...
+                Twinkle sedang mengetik...
               </div>
             )}
           </div>
@@ -101,17 +140,15 @@ export default function ChatBot() {
               onChange={(e) => setInput(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && kirimPesan()}
               placeholder="Ketik pertanyaan…"
-              className="flex-1 border border-gray-200 rounded-full px-3 py-2 text-sm outline-none focus:border-red-400"
-            />
+              className="flex-1 border border-gray-200 rounded-full px-3 py-2 text-sm outline-none focus:border-black"/>
             <button
               onClick={kirimPesan}
-              className="bg-red-600 text-white rounded-full px-4 text-sm font-semibold hover:bg-red-700"
-            >
+              className="bg-black text-white rounded-full px-4 py-2 text-sm font-semibold hover:bg-gray-800 shrink-0">
               Kirim
             </button>
           </div>
         </div>
       )}
-    </div>
+    </>
   );
 }

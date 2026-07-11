@@ -217,11 +217,47 @@ function Dashboard() {
     observer.observe(el);
     return () => observer.disconnect();
   }, []);
+
+  // scroll-spy
+  const [activeIdx, setActiveIdx] = useState(0);
+  const linkRefs = useRef([]);
+  const [indicator, setIndicator] = useState({ left: 0, width: 0 });
+
+  useEffect(() => {
+    const ids = menuItems.map((i) => i.toLowerCase());
+    const sections = ids
+      .map((id) => document.getElementById(id))
+      .filter(Boolean);
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((e) => {
+          if (e.isIntersecting) {
+            const idx = ids.indexOf(e.target.id);
+            if (idx !== -1) setActiveIdx(idx);
+          }
+        });
+      },
+      { rootMargin: "-45% 0px -50% 0px" }
+    );
+    sections.forEach((s) => observer.observe(s));
+    return () => observer.disconnect();
+  }, []);
+
+  // geser garis
+  useEffect(() => {
+    const move = () => {
+      const el = linkRefs.current[activeIdx];
+      if (el) setIndicator({ left: el.offsetLeft, width: el.offsetWidth });
+    };
+    move();
+    window.addEventListener("resize", move);
+    return () => window.removeEventListener("resize", move);
+  }, [activeIdx]);
   return (
     <div className="dashboard min-h-screen overflow-x-hidden bg-white">
 
       {/* navbar */}
-      <nav id="home" className="w-[90%] md:w-4/5 mx-auto left-1/2 -translate-x-1/2 absolute top-6 flex items-center justify-between z-50">
+      <nav className="w-[90%] md:w-4/5 mx-auto left-1/2 -translate-x-1/2 fixed top-4 flex items-center justify-between z-50 bg-white/80 backdrop-blur-md border border-black/10 rounded-2xl px-4 py-2.5 shadow-[0_4px_20px_rgba(0,0,0,0.08)]">
         <div className="flex items-center gap-2">
           <div className="w-9 h-8 px-1 bg-black rounded-lg flex items-center justify-center">
             <span className="text-white text-[10px] font-black font-['poppins'] tracking-tight">LAC</span>
@@ -230,15 +266,25 @@ function Dashboard() {
         </div>
 
         {/* menu desktop */}
-        <ul className="hidden md:flex items-center gap-8">
-          {menuItems.map((item) => (
+        <ul className="hidden md:flex items-center gap-8 relative">
+          {menuItems.map((item, i) => (
             <li key={item}>
-              <a href={`#${item.toLowerCase()}`} className="text-black/60 hover:text-black text-sm font-['poppins'] font-medium tracking-wide transition-colors duration-200 relative group">
+              <a
+                ref={(el) => (linkRefs.current[i] = el)}
+                href={`#${item.toLowerCase()}`}
+                className={`text-sm font-['poppins'] font-medium tracking-wide transition-colors duration-200 ${
+                  activeIdx === i ? "text-black" : "text-black/50 hover:text-black"
+                }`}
+              >
                 {item}
-                <span className="absolute -bottom-1 left-0 w-0 h-px bg-black group-hover:w-full transition-all duration-300"></span>
               </a>
             </li>
           ))}
+          {/* garis indikator */}
+          <span
+            className="absolute -bottom-1 h-0.5 bg-black rounded-full transition-all duration-300 ease-out"
+            style={{ left: indicator.left, width: indicator.width }}
+          ></span>
         </ul>
         <a href="#contact" className="hidden md:inline-block bg-black text-white text-xs font-['poppins'] font-semibold px-4 py-2 rounded-lg hover:bg-black/80 transition-colors duration-200 tracking-wide">
           Hire Me
@@ -344,7 +390,7 @@ function Dashboard() {
           </div>
         </div>
 
-        {/* tentang (desktop) */}
+        {/* tentang versi desktop */}
         <div className="hidden md:flex w-full md:w-2/5 relative overflow-hidden bg-white rounded-4xl flex-row items-center justify-between p-6 gap-4 min-h-52 md:h-70">
           <p className="text-black relative z-10 text-base md:text-lg w-full md:w-4/5 -top-13 text-center md:text-left font-['poppins']">{tentang}</p>
           <div>
@@ -448,12 +494,11 @@ function Dashboard() {
         {/* background titik */}
         <div className="absolute inset-0 z-0" style={{
           backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)',
-          backgroundSize: '20px 20px'
-        }}/>
+          backgroundSize: '20px 20px'}}/>
 
         {/* foto */}
         <div className="w-full md:w-auto flex justify-center items-center shrink-0 relative z-10 min-w-55 md:min-w-75">
-          {/* bintang mengelilingi karakter */}
+          {/* bintang */}
           {karakterBintang.map((b, i) => (
             <Bintang key={`kar-star-${i}`} {...b} desktopOnly={i % 2 === 1} twinkle />
           ))}
@@ -500,8 +545,7 @@ function Dashboard() {
         <div className="bg-black rounded-4xl p-6 md:p-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,0.15)] relative overflow-hidden">
           <div className="absolute inset-0 z-0" style={{
             backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)',
-            backgroundSize: '20px 20px'
-          }}/>
+            backgroundSize: '20px 20px'}}/>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3 md:gap-4 relative z-10">
             {tambahanSkills.map((item) => (
               <div key={item.nama} className="flex flex-col items-center gap-3 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/25 rounded-2xl px-4 py-5 font-['poppins'] transition-all duration-300 hover:-translate-y-1 cursor-pointer">
@@ -523,8 +567,7 @@ function Dashboard() {
         <div className="bg-black rounded-4xl p-8 md:p-14 flex flex-col gap-10 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] border border-black relative overflow-hidden">
           <div className="absolute inset-0 z-0" style={{
             backgroundImage: 'radial-gradient(circle, rgba(255,255,255,0.05) 1px, transparent 1px)',
-            backgroundSize: '20px 20px'
-          }}/>
+            backgroundSize: '20px 20px'}}/>
           {/* bintang berkedip */}
           {extraBintangPositions.map((b, i) => <Bintang key={`contact-star-${i}`} {...b} desktopOnly={i % 2 === 1} twinkle />)}
 
@@ -599,7 +642,6 @@ function Dashboard() {
           </div>
         </div>
       </div>
-
       <ChatBot />
     </div>
   );
