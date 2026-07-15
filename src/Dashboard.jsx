@@ -40,7 +40,7 @@ import nmapIcon from './assets/nmap.png'
 // data
 const nama = 'Leo Agung Christian'
 const tentang = 'Halo! ini adalah website yang aku bikin mengenai diriku.'
-const menuItems = ['Home', 'About', 'Skills', 'Experience', 'Contact'];
+const menuItems = ['About', 'Skills', 'Experience', 'Contact'];
 
 // skill
 const frontendSkills = [
@@ -302,7 +302,7 @@ function Dashboard() {
           <ul className="md:hidden absolute top-14 right-0 bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] border border-black rounded-xl p-4 flex flex-col gap-3 w-48">
             {menuItems.map((item) => (
               <li key={item}>
-                <a href={`#${item.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-black/70 hover:text-black text-sm font-['poppins'] font-medium tracking-wide">{item}</a>
+                <a href={`S${item.toLowerCase()}`} onClick={() => setMenuOpen(false)} className="text-black/70 hover:text-black text-sm font-['poppins'] font-medium tracking-wide">{item}</a>
               </li>
             ))}
           </ul>
