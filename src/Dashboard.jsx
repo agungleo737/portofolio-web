@@ -12,22 +12,24 @@ import emailIcon from './assets/email.png'
 import alamatIcon from './assets/alamat.png'
 
 // Import png skill
+import mlIcon from './assets/machine_learning.png'
+import dlIcon from './assets/deep_learning.png'
 import htmlIcon from './assets/html.png'
 import cssIcon from './assets/css.png'
 import jsIcon from './assets/javascript.png'
 import reactIcon from './assets/react.png'
 import tailwindIcon from './assets/tailwind.png'
 import androidIcon from './assets/android.png'
-
 import phpIcon from './assets/php.png'
 import laravelIcon from './assets/laravel.png'
 import pythonIcon from './assets/python.png'
-import golangIcon from './assets/golang.png'
-import javaIcon from './assets/java.png'
 import mysqlIcon from './assets/mysql.png'
-import postgresIcon from './assets/postgres.png'
 import chromaIcon from './assets/chromadb.png'
 import fineIcon from './assets/fine.png'
+import scikitIcon from './assets/scikit.png'
+import tensorflowIcon from './assets/tensorflow.png'
+import huggingfaceIcon from './assets/huggingface.png'
+import metasploitIcon from './assets/metasploit.png'
 import databasevectorIcon from './assets/database.png'
 import ragIcon from './assets/rag.png'
 import linuxIcon from './assets/linux.png'
@@ -48,23 +50,26 @@ const frontendSkills = [
   { nama: 'CSS', deskripsi: 'Desain layout dan gaya visual antarmuka web.', icon: cssIcon },
   { nama: 'JavaScript', deskripsi: 'Logika interaktif dan manipulasi DOM client-side.', icon: jsIcon },
   { nama: 'React', deskripsi: 'Library berbasis komponen untuk SPA yang efisien.', icon: reactIcon },
-  { nama: 'Tailwind CSS', deskripsi: 'Framework utility-first untuk styling super cepat.', icon: tailwindIcon },
+  { nama: 'Tailwind CSS', deskripsi: 'Framework utility-first untuk styling super cepat.', icon: tailwindIcon }
 ];
 
 const backendSkills = [
   { nama: 'PHP', deskripsi: 'Bahasa skrip server-side untuk web dinamis.', icon: phpIcon },
   { nama: 'Laravel', deskripsi: 'Framework PHP dengan arsitektur MVC yang elegan.', icon: laravelIcon },
   { nama: 'Python', deskripsi: 'Pemrograman serbaguna untuk backend dan skrip data.', icon: pythonIcon },
-  { nama: 'Golang', deskripsi: 'Bahasa performa tinggi untuk sistem backend mikro.', icon: golangIcon },
-  { nama: 'Java', deskripsi: 'Bahasa pemrograman tangguh berbasis OOP untuk enterprise.', icon: javaIcon },
-  { nama: 'MySQL', deskripsi: 'Manajemen sistem basis data relasional (RDBMS).', icon: mysqlIcon },
-  { nama: 'PostgreSQL', deskripsi: 'Database relasional tingkat lanjut open-source.', icon: postgresIcon }
+  { nama: 'MySQL', deskripsi: 'Manajemen sistem basis data relasional (RDBMS).', icon: mysqlIcon }
 ];
 const aiSkills = [
   { nama: 'RAG', deskripsi: 'Sistem pencarian informasi eksternal untuk LLM.', icon: ragIcon },
   { nama: 'Fine-Tuning', deskripsi: 'Melatih ulang model AI agar spesifik pada suatu domain.', icon: fineIcon },
+  { nama: 'Scikit-Learn', deskripsi: 'Library Python untuk algoritma Machine Learning & analisis data.', icon: scikitIcon },
+  { nama: 'TensorFlow', deskripsi: 'Framework Deep Learning untuk melatih jaringan saraf tiruan.', icon: tensorflowIcon },
+  { nama: 'Hugging Face', deskripsi: 'Pustaka model AI open-source untuk NLP & LLM.', icon: huggingfaceIcon },
+  { nama: 'PyTorch', deskripsi: 'Framework utama untuk riset dan pengembangan Deep Learning.', icon: pytorchIcon },
   { nama: 'ChromaDB', deskripsi: 'Vector database open-source khusus aplikasi AI.', icon: chromaIcon },
   { nama: 'Vector Databases', deskripsi: 'Penyimpanan embedding data untuk pencarian semantik.', icon: databasevectorIcon },
+  { nama: 'Machine Learning', deskripsi: 'Pengembangan model prediktif & algoritma pemrosesan data.', icon: mlIcon },
+  { nama: 'Deep Learning', deskripsi: 'Arsitektur jaringan saraf tiruan (Neural Networks) & pengenalan pola.', icon: dlIcon }
 ];
 
 const tambahanSkills = [
@@ -74,7 +79,7 @@ const tambahanSkills = [
   { nama: 'nmap', icon: nmapIcon },
   { nama: 'Wireshark', icon: wiresharkIcon },
   { nama: 'Burp Suite', icon: burpsuiteIcon },
-  { nama: 'PyTorch', icon: pytorchIcon },
+  { nama: 'Metasploit', icon: metasploitIcon },
 ];
 
 const bintangPositions = [
@@ -418,7 +423,15 @@ function Dashboard() {
 
             {/* Animasi */}
             <div key={`fe-${currentSkillIndex}`} className="flex flex-col items-center gap-4 my-auto">
-              <img src={frontendSkills[currentSkillIndex % frontendSkills.length].icon} alt="Icon" className="w-20 h-20 object-contain drop-shadow-md" />
+              <img 
+                src={frontendSkills[currentSkillIndex % frontendSkills.length].icon} 
+                alt="Icon" 
+                className={`w-20 h-20 object-contain drop-shadow-md transition-transform duration-300 ${
+                  ['React', 'Tailwind CSS'].includes(frontendSkills[currentSkillIndex % frontendSkills.length].nama)
+                    ? 'scale-125'
+                    : 'scale-100'
+                }`} 
+              />
               <span className="text-black font-black text-3xl font-['poppins'] tracking-tight">{frontendSkills[currentSkillIndex % frontendSkills.length].nama}</span>
             </div>
             <p className="text-black/70 text-sm font-['poppins'] h-12 flex items-center justify-center font-medium px-2">{frontendSkills[currentSkillIndex % frontendSkills.length].deskripsi}</p>
@@ -435,7 +448,15 @@ function Dashboard() {
 
             {/* Animasi */}
             <div key={`be-${currentSkillIndex}`} className="flex flex-col items-center gap-4 my-auto">
-              <img src={backendSkills[currentSkillIndex % backendSkills.length].icon} alt="Icon" className="w-20 h-20 object-contain drop-shadow-md" />
+              <img 
+                src={backendSkills[currentSkillIndex % backendSkills.length].icon} 
+                alt="Icon" 
+                className={`w-20 h-20 object-contain drop-shadow-md transition-transform duration-300 ${
+                  ['PHP', 'MySQL'].includes(backendSkills[currentSkillIndex % backendSkills.length].nama)
+                    ? 'scale-125'
+                    : 'scale-100'
+                }`} 
+              />
               <span className="text-black font-black text-3xl font-['poppins'] tracking-tight">{backendSkills[currentSkillIndex % backendSkills.length].nama}</span>
             </div>
             <p className="text-black/70 text-sm font-['poppins'] h-12 flex items-center justify-center font-medium px-2">{backendSkills[currentSkillIndex % backendSkills.length].deskripsi}</p>
@@ -452,7 +473,18 @@ function Dashboard() {
 
             {/* Animasi */}
             <div key={`ai-${currentSkillIndex}`} className="flex flex-col items-center gap-4 my-auto">
-              <img src={aiSkills[currentSkillIndex % aiSkills.length].icon} alt="Icon" className="w-20 h-20 object-contain drop-shadow-md" />
+              <img 
+                src={aiSkills[currentSkillIndex % aiSkills.length].icon} 
+                alt="Icon" 
+                className={`w-20 h-20 object-contain drop-shadow-md transition-transform duration-300 ${
+                  aiSkills[currentSkillIndex % aiSkills.length].nama === 'Hugging Face'
+                    ? 'scale-135'
+                    : ['Scikit-Learn', 'TensorFlow', 'Machine Learning', 'Deep Learning'].includes(
+                        aiSkills[currentSkillIndex % aiSkills.length].nama
+                      )
+                    ? 'scale-160'
+                    : 'scale-100'
+                }`}/>
               <span className="text-black font-black text-3xl font-['poppins'] tracking-tight">{aiSkills[currentSkillIndex % aiSkills.length].nama}</span>
             </div>
             <p className="text-black/70 text-sm font-['poppins'] h-12 flex items-center justify-center font-medium px-2">{aiSkills[currentSkillIndex % aiSkills.length].deskripsi}</p>
@@ -465,21 +497,48 @@ function Dashboard() {
             <div className="border-b border-gray-100 pb-3 flex flex-col items-center">
               <p className="text-black/40 text-[9px] font-mono tracking-widest uppercase mb-1">FRONTEND</p>
               <div key={`mob-fe-${currentSkillIndex}`} className="flex items-center gap-2">
-                <img src={frontendSkills[currentSkillIndex % frontendSkills.length].icon} alt="Icon" className="w-6 h-6 object-contain" />
+                <img 
+                  src={frontendSkills[currentSkillIndex % frontendSkills.length].icon} 
+                  alt="Icon" 
+                  className={`w-6 h-6 object-contain ${
+                    ['React', 'Tailwind CSS'].includes(frontendSkills[currentSkillIndex % frontendSkills.length].nama)
+                      ? 'scale-120'
+                      : 'scale-100'
+                  }`} 
+                />
                 <span className="text-black font-black text-lg font-['poppins']">{frontendSkills[currentSkillIndex % frontendSkills.length].nama}</span>
               </div>
             </div>
             <div className="border-b border-gray-100 pb-3 flex flex-col items-center">
               <p className="text-black/40 text-[9px] font-mono tracking-widest uppercase mb-1">BACKEND</p>
               <div key={`mob-be-${currentSkillIndex}`} className="flex items-center gap-2">
-                <img src={backendSkills[currentSkillIndex % backendSkills.length].icon} alt="Icon" className="w-6 h-6 object-contain" />
+                <img 
+                  src={backendSkills[currentSkillIndex % backendSkills.length].icon} 
+                  alt="Icon" 
+                  className={`w-6 h-6 object-contain ${
+                    ['PHP', 'MySQL'].includes(backendSkills[currentSkillIndex % backendSkills.length].nama)
+                      ? 'scale-140'
+                      : 'scale-100'
+                  }`} 
+                />
                 <span className="text-black font-black text-lg font-['poppins']">{backendSkills[currentSkillIndex % backendSkills.length].nama}</span>
               </div>
             </div>
             <div className="flex flex-col items-center">
               <p className="text-black/40 text-[9px] font-mono tracking-widest uppercase mb-1">AI & ML</p>
               <div key={`mob-ai-${currentSkillIndex}`} className="flex items-center gap-2">
-                <img src={aiSkills[currentSkillIndex % aiSkills.length].icon} alt="Icon" className="w-6 h-6 object-contain" />
+                <img 
+                  src={aiSkills[currentSkillIndex % aiSkills.length].icon} 
+                  alt="Icon" 
+                  className={`w-6 h-6 object-contain ${
+                    aiSkills[currentSkillIndex % aiSkills.length].nama === 'Hugging Face'
+                      ? 'scale-130'
+                      : ['Scikit-Learn', 'TensorFlow', 'Machine Learning', 'Deep Learning'].includes(
+                          aiSkills[currentSkillIndex % aiSkills.length].nama
+                        )
+                      ? 'scale-140'
+                      : 'scale-100'
+                  }`}/>
                 <span className="text-black font-black text-lg font-['poppins']">{aiSkills[currentSkillIndex % aiSkills.length].nama}</span>
               </div>
             </div>
@@ -642,7 +701,7 @@ function Dashboard() {
           </div>
         </div>
       </div>
-      <ChatBot />
+      <ChatBot/>
     </div>
   );
 }
