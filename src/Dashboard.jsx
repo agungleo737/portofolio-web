@@ -197,6 +197,18 @@ function Bintang({ top, bottom, left, opacity, size, delay, twinkle, desktopOnly
 function Dashboard() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [currentSkillIndex, setCurrentSkillIndex] = useState(0);
+
+  // Preload seluruh gambar
+  useEffect(() => {
+    const allSkills = [...frontendSkills, ...backendSkills, ...aiSkills, ...tambahanSkills];
+    allSkills.forEach((skill) => {
+      if (skill.icon) {
+        const img = new Image();
+        img.src = skill.icon;
+      }
+    });
+  }, []);
+
   useEffect(() => {
     const timer = setInterval(() => {
       setCurrentSkillIndex((prevIndex) => (prevIndex + 1) % 1000);
@@ -279,8 +291,7 @@ function Dashboard() {
                 href={`#${item.toLowerCase()}`}
                 className={`text-sm font-['poppins'] font-medium tracking-wide transition-colors duration-200 ${
                   activeIdx === i ? "text-black" : "text-black/50 hover:text-black"
-                }`}
-              >
+                }`}>
                 {item}
               </a>
             </li>
@@ -425,13 +436,12 @@ function Dashboard() {
             <div key={`fe-${currentSkillIndex}`} className="flex flex-col items-center gap-4 my-auto">
               <img 
                 src={frontendSkills[currentSkillIndex % frontendSkills.length].icon} 
-                alt="Icon" 
+                alt="" 
                 className={`w-20 h-20 object-contain drop-shadow-md transition-transform duration-300 ${
                   ['React', 'Tailwind CSS'].includes(frontendSkills[currentSkillIndex % frontendSkills.length].nama)
                     ? 'scale-125'
                     : 'scale-100'
-                }`} 
-              />
+                }`}/>
               <span className="text-black font-black text-3xl font-['poppins'] tracking-tight">{frontendSkills[currentSkillIndex % frontendSkills.length].nama}</span>
             </div>
             <p className="text-black/70 text-sm font-['poppins'] h-12 flex items-center justify-center font-medium px-2">{frontendSkills[currentSkillIndex % frontendSkills.length].deskripsi}</p>
@@ -450,13 +460,12 @@ function Dashboard() {
             <div key={`be-${currentSkillIndex}`} className="flex flex-col items-center gap-4 my-auto">
               <img 
                 src={backendSkills[currentSkillIndex % backendSkills.length].icon} 
-                alt="Icon" 
+                alt="" 
                 className={`w-20 h-20 object-contain drop-shadow-md transition-transform duration-300 ${
                   ['PHP', 'MySQL'].includes(backendSkills[currentSkillIndex % backendSkills.length].nama)
                     ? 'scale-125'
                     : 'scale-100'
-                }`} 
-              />
+                }`}/>
               <span className="text-black font-black text-3xl font-['poppins'] tracking-tight">{backendSkills[currentSkillIndex % backendSkills.length].nama}</span>
             </div>
             <p className="text-black/70 text-sm font-['poppins'] h-12 flex items-center justify-center font-medium px-2">{backendSkills[currentSkillIndex % backendSkills.length].deskripsi}</p>
@@ -475,7 +484,7 @@ function Dashboard() {
             <div key={`ai-${currentSkillIndex}`} className="flex flex-col items-center gap-4 my-auto">
               <img 
                 src={aiSkills[currentSkillIndex % aiSkills.length].icon} 
-                alt="Icon" 
+                alt="" 
                 className={`w-20 h-20 object-contain drop-shadow-md transition-transform duration-300 ${
                   aiSkills[currentSkillIndex % aiSkills.length].nama === 'Hugging Face'
                     ? 'scale-135'
@@ -499,13 +508,12 @@ function Dashboard() {
               <div key={`mob-fe-${currentSkillIndex}`} className="flex items-center gap-2">
                 <img 
                   src={frontendSkills[currentSkillIndex % frontendSkills.length].icon} 
-                  alt="Icon" 
+                  alt="" 
                   className={`w-6 h-6 object-contain ${
                     ['React', 'Tailwind CSS'].includes(frontendSkills[currentSkillIndex % frontendSkills.length].nama)
                       ? 'scale-120'
                       : 'scale-100'
-                  }`} 
-                />
+                  }`}/>
                 <span className="text-black font-black text-lg font-['poppins']">{frontendSkills[currentSkillIndex % frontendSkills.length].nama}</span>
               </div>
             </div>
@@ -514,13 +522,12 @@ function Dashboard() {
               <div key={`mob-be-${currentSkillIndex}`} className="flex items-center gap-2">
                 <img 
                   src={backendSkills[currentSkillIndex % backendSkills.length].icon} 
-                  alt="Icon" 
+                  alt="" 
                   className={`w-6 h-6 object-contain ${
                     ['PHP', 'MySQL'].includes(backendSkills[currentSkillIndex % backendSkills.length].nama)
                       ? 'scale-140'
                       : 'scale-100'
-                  }`} 
-                />
+                  }`} />
                 <span className="text-black font-black text-lg font-['poppins']">{backendSkills[currentSkillIndex % backendSkills.length].nama}</span>
               </div>
             </div>
@@ -529,7 +536,7 @@ function Dashboard() {
               <div key={`mob-ai-${currentSkillIndex}`} className="flex items-center gap-2">
                 <img 
                   src={aiSkills[currentSkillIndex % aiSkills.length].icon} 
-                  alt="Icon" 
+                  alt="" 
                   className={`w-6 h-6 object-contain ${
                     aiSkills[currentSkillIndex % aiSkills.length].nama === 'Hugging Face'
                       ? 'scale-130'
