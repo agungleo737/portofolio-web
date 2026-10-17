@@ -1,16 +1,80 @@
-# React + Vite
+# Personal Portfolio Website
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A personal portfolio website built with React and Vite to showcase my profile, skills, and projects in software development and cybersecurity.
 
-Currently, two official plugins are available:
+## Live Demo
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+**Website:** https://portofolio-web-two-theta.vercel.app/
 
-## React Compiler
+## Tech Stack
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- React 19
+- Vite
+- JavaScript
+- Tailwind CSS
 
-## Expanding the ESLint configuration
+## Getting Started
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Prerequisites
+
+Make sure you have Node.js and npm installed.
+
+### Installation
+
+1. Clone this repository:
+
+   ```bash
+   git clone https://github.com/agungleo737/portofolio-web.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd portofolio-web
+   ```
+
+3. Install dependencies:
+
+   ```bash
+   npm install
+   ```
+
+4. Start the development server:
+
+   ```bash
+   npm run dev
+   ```
+
+5. Open the local URL shown in your terminal.
+
+## Available Scripts
+
+| Command | Description |
+|---|---|
+| `npm run dev` | Start the development server |
+| `npm run build` | Build the production version |
+| `npm run preview` | Preview the production build |
+| `npm run lint` | Run ESLint checks |
+
+## Project Structure
+
+```text
+portofolio-web/
+├── public/          # Static assets
+├── src/             # Application source code
+├── index.html       # HTML entry point
+├── package.json     # Dependencies and scripts
+├── vite.config.js   # Vite configuration
+└── README.md        # Project documentation
+```
+
+## Deployment
+
+The portfolio is deployed on Vercel.
+
+## Author
+
+**Agung Leo**
+
+- GitHub: https://github.com/agungleo737
+- Portfolio: https://portofolio-web-two-theta.vercel.app/
